@@ -71,10 +71,6 @@
     gap:10px;
     margin-bottom:18px;
   }
-  .eyebrow::before{
-    content:"//";
-    color:var(--muted);
-  }
 
   h2.section-title{
     font-family:var(--mono);
@@ -144,7 +140,8 @@
   @media (max-width:760px){
     .nav-links{
       position:fixed; inset:64px 0 0 0;
-      background:var(--ink);
+      background:#0D1B2A;
+      opacity:1;
       flex-direction:column;
       padding:40px 24px;
       gap:26px;
@@ -153,6 +150,7 @@
       transition:transform .35s ease;
       border-top:1px solid var(--line);
       align-items:flex-start;
+      z-index:99;
     }
     .nav-links.open{transform:translateX(0);}
     .nav-toggle{display:flex;}
@@ -212,6 +210,7 @@
   .hero h1 .accent{
     color:var(--teal);
     display:block;
+    min-height:1.2em;
   }
   .typed-cursor{
     display:inline-block;
@@ -269,53 +268,84 @@
   .hero-meta a:hover{color:var(--teal);}
   .hero-meta strong{color:var(--off); font-weight:600;}
 
-  /* Console card (signature element) */
-  .console{
+  /* Stats card (signature element) */
+  .stats-card{
     background:var(--slate);
     border:1px solid var(--line);
-    border-radius:10px;
-    overflow:hidden;
+    border-radius:14px;
+    padding:32px;
     box-shadow: 0 30px 60px -30px rgba(0,0,0,0.7);
     opacity:0;
     transform:translateY(24px);
     animation: floatIn .8s ease 0.2s forwards;
+    transition: box-shadow .3s ease;
   }
   @keyframes floatIn{
     to{opacity:1; transform:translateY(0);}
   }
-  .console:hover{
+  .stats-card:hover{
     box-shadow: 0 30px 70px -25px rgba(79,209,197,0.25);
   }
-  .console-bar{
-    display:flex; align-items:center; gap:8px;
-    padding:12px 16px;
-    background:var(--slate-2);
-    border-bottom:1px solid var(--line);
+  .stats-card-header{
+    display:flex; align-items:center; gap:16px;
+    margin-bottom:28px;
   }
-  .dot{width:10px; height:10px; border-radius:50%;}
-  .dot.r{background:#ef5350;}
-  .dot.y{background:#f6c453;}
-  .dot.g{background:#4fd1c5;}
-  .console-bar .path{
-    margin-left:10px;
+  .avatar{
+    width:56px; height:56px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--teal), var(--amber));
+    color:var(--ink);
     font-family:var(--mono);
-    font-size:12px;
-    color:var(--muted);
+    font-weight:800;
+    font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
   }
-  .console-body{
-    padding:22px 22px 26px;
+  .stats-name{
     font-family:var(--mono);
+    font-weight:700;
+    font-size:18px;
+    color:var(--off);
+  }
+  .stats-role{
     font-size:13px;
-    line-height:1.95;
-    overflow-x:auto;
-    white-space:pre;
+    color:var(--muted);
+    margin-top:2px;
   }
-  .ln{color:#4a5b73; display:inline-block; width:1.6em; user-select:none;}
-  .tok-key{color:#8fd6ff;}
-  .tok-str{color:var(--amber);}
-  .tok-num{color:var(--teal);}
-  .tok-punct{color:var(--muted);}
-  .tok-bool{color:#c792ea;}
+  .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+    margin-bottom:28px;
+  }
+  .stat{
+    background:var(--slate-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .stat:hover{ transform:translateY(-3px); border-color:var(--teal); }
+  .stat-num{
+    font-family:var(--mono);
+    font-weight:800;
+    font-size:28px;
+    color:var(--teal);
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .stat-label{
+    font-size:12.5px;
+    color:var(--muted);
+    letter-spacing:0.02em;
+  }
+  .stats-tags{
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  @media (max-width:420px){
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .stats-card{padding:24px;}
+  }
 
   /* ===== Summary ===== */
   .summary p{
@@ -443,18 +473,6 @@
     transform:translateY(-6px);
     box-shadow:0 20px 40px -25px rgba(79,209,197,0.35);
   }
-  .project-method{
-    font-family:var(--mono);
-    font-size:12px;
-    letter-spacing:0.06em;
-    color:var(--ink);
-    background:var(--teal);
-    display:inline-block;
-    padding:3px 8px;
-    border-radius:4px;
-    font-weight:700;
-    width:fit-content;
-  }
   .project-card h3{
     font-family:var(--mono);
     font-size:17px;
@@ -581,9 +599,9 @@
   .to-top:hover{background:#6fe0d6;}
 
   @media (prefers-reduced-motion: reduce){
-    .reveal, .console, .btn, .stagger > *{transition:none; animation:none;}
+    .reveal, .stats-card, .btn, .stagger > *{transition:none; animation:none;}
     .reveal, .stagger > *{opacity:1; transform:none;}
-    .console{opacity:1; transform:none;}
+    .stats-card{opacity:1; transform:none;}
     .pulse-dot, .typed-cursor{animation:none;}
   }
 </style>
@@ -626,21 +644,41 @@
         </div>
       </div>
 
-      <div class="console">
-        <div class="console-bar">
-          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-          <span class="path">GET /developer/javeed-ak</span>
+      <div class="stats-card">
+        <div class="stats-card-header">
+          <div class="avatar">JA</div>
+          <div>
+            <div class="stats-name">Javeed AK</div>
+            <div class="stats-role">Senior Full Stack Developer</div>
+          </div>
         </div>
-        <div class="console-body">{
-  <span class="tok-key">"status"</span><span class="tok-punct">:</span> <span class="tok-num">200</span><span class="tok-punct">,</span>
-  <span class="tok-key">"role"</span><span class="tok-punct">:</span> <span class="tok-str">"Senior Full Stack Developer"</span><span class="tok-punct">,</span>
-  <span class="tok-key">"experience_years"</span><span class="tok-punct">:</span> <span class="tok-num">6</span><span class="tok-punct">,</span>
-  <span class="tok-key">"core_stack"</span><span class="tok-punct">:</span> [<span class="tok-str">"PHP"</span>, <span class="tok-str">"CodeIgniter"</span>, <span class="tok-str">"MySQL"</span>, <span class="tok-str">"Redis"</span>]<span class="tok-punct">,</span>
-  <span class="tok-key">"growth_stack"</span><span class="tok-punct">:</span> [<span class="tok-str">"React"</span>, <span class="tok-str">"Next.js"</span>, <span class="tok-str">"TypeScript"</span>]<span class="tok-punct">,</span>
-  <span class="tok-key">"latency_reduced"</span><span class="tok-punct">:</span> <span class="tok-str">"40%"</span><span class="tok-punct">,</span>
-  <span class="tok-key">"live_platforms"</span><span class="tok-punct">:</span> <span class="tok-num">5</span><span class="tok-punct">,</span>
-  <span class="tok-key">"availability"</span><span class="tok-punct">:</span> <span class="tok-bool">true</span>
-}</div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-num">6+</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">5+</div>
+            <div class="stat-label">Live Platforms</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">40%</div>
+            <div class="stat-label">Latency Reduced</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">6+</div>
+            <div class="stat-label">APIs Integrated</div>
+          </div>
+        </div>
+        <div class="stats-tags">
+          <span class="tag">PHP</span>
+          <span class="tag">CodeIgniter</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">Redis</span>
+          <span class="tag new">React</span>
+          <span class="tag new">Next.js</span>
+          <span class="tag new">TypeScript</span>
+        </div>
       </div>
     </div>
   </section>
@@ -648,8 +686,8 @@
   <!-- SUMMARY -->
   <section id="summary">
     <div class="wrap summary reveal">
-      <div class="eyebrow">summary</div>
-      <h2 class="section-title">// professional summary</h2>
+      <div class="eyebrow">about me</div>
+      <h2 class="section-title">Professional Summary</h2>
       <p>
         Results-driven Senior Full Stack Developer with <span class="highlight">6+ years</span> of experience architecting scalable web applications, REST APIs, and enterprise-grade platforms. Expert in PHP (Core, CodeIgniter) with strong command of MySQL and Google BigQuery for data management, Redis for caching, jQuery, Ajax, and third-party API integrations. Additionally experienced in modern frontend technologies including <span class="highlight">TypeScript, React, and Next.js</span>. Delivered <span class="highlight">5+ live production platforms</span> serving real users, including decentralised networks, B2B marketplaces, and internal enterprise tools. Recognised as Best Performer in Project Execution. Immediate joiner — ready to contribute from Day 1.
       </p>
@@ -659,8 +697,8 @@
   <!-- SKILLS -->
   <section id="skills">
     <div class="wrap reveal">
-      <div class="eyebrow">stack</div>
-      <h2 class="section-title">// technical skills</h2>
+      <div class="eyebrow">expertise</div>
+      <h2 class="section-title">Technical Skills</h2>
       <div class="skills-grid stagger">
         <div class="skill-cell">
           <h3>Languages</h3>
@@ -745,8 +783,8 @@
   <!-- EXPERIENCE -->
   <section id="experience">
     <div class="wrap reveal">
-      <div class="eyebrow">work log</div>
-      <h2 class="section-title">// professional experience</h2>
+      <div class="eyebrow">career</div>
+      <h2 class="section-title">Professional Experience</h2>
       <div class="exp-card">
         <div class="exp-head">
           <div class="exp-role">Senior Software Developer</div>
@@ -771,12 +809,11 @@
   <!-- PROJECTS -->
   <section id="projects">
     <div class="wrap reveal">
-      <div class="eyebrow">endpoints</div>
-      <h2 class="section-title">// key projects</h2>
+      <div class="eyebrow">portfolio</div>
+      <h2 class="section-title">Key Projects</h2>
       <div class="projects-grid stagger">
 
         <div class="project-card">
-          <span class="project-method">POST /team-panel</span>
           <h3>Ultimez Team Panel<small>Internal HR &amp; Operations Platform</small></h3>
           <ul>
             <li>Full-featured employee management system: attendance, departments, role-based access, real-time dashboards.</li>
@@ -786,7 +823,6 @@
         </div>
 
         <div class="project-card">
-          <span class="project-method">POST /arrano-network</span>
           <h3>Arrano Network<small>arrano.network — Decentralised Platform</small></h3>
           <ul>
             <li>Developed and maintained complete REST API backend for a decentralised network platform.</li>
@@ -796,7 +832,6 @@
         </div>
 
         <div class="project-card">
-          <span class="project-method">GET /upcomings</span>
           <h3>Upcomings<small>upcomings.io — Event Discovery Platform</small></h3>
           <ul>
             <li>Built REST API backend with Google Calendar API integration for real-time event sync and scheduling.</li>
@@ -805,7 +840,6 @@
         </div>
 
         <div class="project-card">
-          <span class="project-method">GET /brandsneed</span>
           <h3>Brandsneed<small>brandsneed.com — B2B Brand Services Marketplace</small></h3>
           <ul>
             <li>Developed full REST API suite with GA4 integration for advanced user behaviour analytics and event tracking.</li>
@@ -814,7 +848,6 @@
         </div>
 
         <div class="project-card">
-          <span class="project-method">POST /gameinfinity</span>
           <h3>Gameinfinity<small>Gaming Backend Platform</small></h3>
           <ul>
             <li>Built APIs for game state management, leaderboards, and player session control at scale.</li>
@@ -823,7 +856,6 @@
         </div>
 
         <div class="project-card">
-          <span class="project-method">GET /frontend-suite</span>
           <h3>Frontend Development<small>React &amp; Next.js Projects</small></h3>
           <ul>
             <li>Built responsive, component-driven UI features using React with TypeScript, applying hooks, state management, and reusable component patterns.</li>
@@ -840,7 +872,7 @@
   <section id="education">
     <div class="wrap reveal">
       <div class="eyebrow">background</div>
-      <h2 class="section-title">// education &amp; achievements</h2>
+      <h2 class="section-title">Education &amp; Achievements</h2>
       <div class="two-col stagger">
         <div class="info-card">
           <h3>Education</h3>
@@ -865,7 +897,7 @@
   <section id="contact">
     <div class="wrap contact reveal">
       <div class="eyebrow" style="justify-content:center;">connect</div>
-      <h2 class="section-title">// get in touch</h2>
+      <h2 class="section-title">Get In Touch</h2>
       <p>Open to relocation and available to join immediately. Let's talk about how I can contribute to your team from Day 1.</p>
       <div class="contact-grid">
         <a class="btn btn-primary" href="mailto:javeedbnk@gmail.com">✉ javeedbnk@gmail.com</a>
