@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Javeed AK — Senior Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0D1B2A;
+    --slate:#16273B;
+    --slate-2:#1E3047;
+    --teal:#4FD1C5;
+    --amber:#F4A259;
+    --off:#E8ECEF;
+    --muted:#7E8CA3;
+    --line: rgba(232,236,239,0.08);
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+    --maxw: 1080px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--off);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+
+  /* ===== Layout helpers ===== */
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+  section{padding:88px 0;}
+  @media (max-width:720px){ section{padding:56px 0;} }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--teal);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:"//";
+    color:var(--muted);
+  }
+
+  h2.section-title{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:clamp(24px,4vw,34px);
+    letter-spacing:-0.01em;
+    margin-bottom:36px;
+    color:var(--off);
+  }
+
+  /* ===== Nav ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(13,27,42,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 24px;
+    max-width:var(--maxw); margin:0 auto;
+  }
+  .logo{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:17px;
+    letter-spacing:-0.02em;
+    color:var(--off);
+  }
+  .logo span{color:var(--teal);}
+  .nav-links{
+    display:flex; gap:28px;
+    font-family:var(--mono);
+    font-size:13px;
+    text-transform:lowercase;
+  }
+  .nav-links a{
+    color:var(--muted);
+    text-decoration:none;
+    transition:color .2s ease;
+    position:relative;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible{color:var(--teal);}
+  .nav-links a:focus-visible{outline:1px dashed var(--teal); outline-offset:4px;}
+
+  .nav-toggle{display:none;}
+  @media (max-width:720px){
+    .nav-links{
+      position:fixed; inset:64px 0 0 0;
+      background:var(--ink);
+      flex-direction:column;
+      padding:32px 24px;
+      gap:22px;
+      font-size:16px;
+      transform:translateX(100%);
+      transition:transform .35s ease;
+      border-top:1px solid var(--line);
+    }
+    .nav-links.open{transform:translateX(0);}
+    .nav-toggle{
+      display:flex; flex-direction:column; gap:5px;
+      background:none; border:none; cursor:pointer; padding:6px;
+    }
+    .nav-toggle span{
+      width:22px; height:2px; background:var(--off); display:block;
+      transition:all .25s ease;
+    }
+    .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .nav-toggle.open span:nth-child(2){opacity:0;}
+    .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    padding-top:96px;
+    padding-bottom:80px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap:48px;
+    align-items:center;
+  }
+  @media (max-width:880px){
+    .hero-grid{grid-template-columns:1fr; gap:40px;}
+  }
+
+  .hero-tag{
+    font-family:var(--mono);
+    color:var(--teal);
+    font-size:14px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:var(--mono);
+    font-weight:800;
+    font-size:clamp(36px, 6vw, 58px);
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    margin-bottom:18px;
+  }
+  .hero h1 .accent{color:var(--teal);}
+  .hero p.lead{
+    color:var(--muted);
+    font-size:17px;
+    max-width:480px;
+    margin-bottom:32px;
+  }
+  .hero-actions{
+    display:flex; gap:14px; flex-wrap:wrap;
+    margin-bottom:36px;
+  }
+  .btn{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.04em;
+    padding:13px 22px;
+    border-radius:6px;
+    text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .18s ease, background .2s ease, color .2s ease, border-color .2s ease;
+    border:1px solid transparent;
+  }
+  .btn-primary{
+    background:var(--teal);
+    color:var(--ink);
+    font-weight:600;
+  }
+  .btn-primary:hover{transform:translateY(-2px); background:#6fe0d6;}
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--off);
+  }
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-2px);}
+  .btn:focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
+
+  .hero-meta{
+    display:flex; gap:24px; flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--muted);
+  }
+  .hero-meta strong{color:var(--off); font-weight:600;}
+
+  /* Console card (signature element) */
+  .console{
+    background:var(--slate);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.6);
+    animation: floatIn .9s ease both;
+  }
+  @keyframes floatIn{
+    from{opacity:0; transform:translateY(18px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .console-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px;
+    background:var(--slate-2);
+    border-bottom:1px solid var(--line);
+  }
+  .dot{width:10px; height:10px; border-radius:50%;}
+  .dot.r{background:#ef5350;}
+  .dot.y{background:#f6c453;}
+  .dot.g{background:#4fd1c5;}
+  .console-bar span.path{
+    margin-left:10px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+  }
+  .console-body{
+    padding:22px 22px 26px;
+    font-family:var(--mono);
+    font-size:13px;
+    line-height:1.85;
+    overflow-x:auto;
+  }
+  .console-body .ln{color:var(--muted); display:inline-block; width:1.5em; user-select:none;}
+  .k{color:#8fd6ff;}
+  .s{color:var(--amber);}
+  .n{color:var(--teal);}
+  .punct{color:var(--muted);}
+  .kw{color:#c792ea;}
+
+  /* ===== Summary ===== */
+  .summary p{
+    color:var(--off);
+    font-size:17px;
+    max-width:760px;
+  }
+  .summary .highlight{color:var(--teal); font-weight:600;}
+
+  /* ===== Skills ===== */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  @media (max-width:720px){
+    .skills-grid{grid-template-columns:1fr;}
+  }
+  .skill-cell{
+    background:var(--slate);
+    padding:22px 24px;
+  }
+  .skill-cell h3{
+    font-family:var(--mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--teal);
+    margin-bottom:10px;
+  }
+  .skill-tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:var(--mono);
+    font-size:12.5px;
+    padding:5px 10px;
+    border:1px solid var(--line);
+    border-radius:5px;
+    color:var(--off);
+    background:rgba(255,255,255,0.02);
+    white-space:nowrap;
+  }
+  .tag.new{border-color:var(--amber); color:var(--amber);}
+
+  /* ===== Experience (log style) ===== */
+  .exp-card{
+    background:var(--slate);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:32px;
+  }
+  @media (max-width:720px){ .exp-card{padding:22px;} }
+  .exp-head{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    margin-bottom:6px;
+  }
+  .exp-role{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:18px;
+    color:var(--off);
+  }
+  .exp-dates{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--teal);
+    white-space:nowrap;
+  }
+  .exp-company{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:22px;
+    font-family:var(--mono);
+  }
+  .log-list{list-style:none;}
+  .log-list li{
+    display:flex;
+    gap:12px;
+    padding:10px 0;
+    border-top:1px solid var(--line);
+    font-size:15px;
+    color:var(--off);
+  }
+  .log-list li:first-child{border-top:none;}
+  .log-list li .marker{
+    font-family:var(--mono);
+    color:var(--teal);
+    font-size:13px;
+    flex-shrink:0;
+    margin-top:3px;
+  }
+  .log-list li b{color:var(--amber); font-weight:600;}
+
+  /* ===== Projects ===== */
+  .projects-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:20px;
+  }
+  @media (max-width:880px){ .projects-grid{grid-template-columns:1fr;} }
+
+  .project-card{
+    background:var(--slate);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .project-card:hover{border-color:var(--teal); transform:translateY(-4px);}
+  .project-method{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.06em;
+    color:var(--ink);
+    background:var(--teal);
+    display:inline-block;
+    padding:3px 8px;
+    border-radius:4px;
+    font-weight:700;
+    width:fit-content;
+  }
+  .project-card h3{
+    font-family:var(--mono);
+    font-size:17px;
+    font-weight:700;
+    color:var(--off);
+  }
+  .project-card h3 small{
+    display:block;
+    color:var(--muted);
+    font-weight:400;
+    font-size:13px;
+    margin-top:4px;
+  }
+  .project-card ul{
+    list-style:none;
+    color:var(--off);
+    font-size:14px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .project-card ul li{padding-left:18px; position:relative;}
+  .project-card ul li::before{
+    content:"▸";
+    position:absolute; left:0; color:var(--teal);
+  }
+  .project-tech{
+    margin-top:auto;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    padding-top:12px;
+    border-top:1px solid var(--line);
+  }
+  .project-tech b{color:var(--off); font-weight:600;}
+
+  /* ===== Education / Certs ===== */
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  @media (max-width:880px){ .two-col{grid-template-columns:1fr;} }
+  .info-card{
+    background:var(--slate);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px;
+  }
+  .info-card h3{
+    font-family:var(--mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--teal);
+    margin-bottom:14px;
+  }
+  .info-card .deg{font-weight:600; font-size:16px; margin-bottom:4px;}
+  .info-card .sub{color:var(--muted); font-size:14px;}
+  .achv-list{list-style:none; display:flex; flex-direction:column; gap:12px;}
+  .achv-list li{
+    display:flex; gap:10px; font-size:14px; color:var(--off);
+  }
+  .achv-list li::before{content:"★"; color:var(--amber); flex-shrink:0;}
+
+  /* ===== Contact ===== */
+  .contact{
+    text-align:center;
+  }
+  .contact h2.section-title{margin-bottom:14px;}
+  .contact p{color:var(--muted); max-width:480px; margin:0 auto 32px;}
+  .contact-grid{
+    display:flex; justify-content:center; gap:16px; flex-wrap:wrap;
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:28px 0;
+    text-align:center;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--muted);
+  }
+
+  /* reveal-on-scroll */
+  .reveal{
+    opacity:0; transform:translateY(24px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.visible{opacity:1; transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .console, .btn{transition:none; animation:none;}
+    .reveal{opacity:1; transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">javeed<span>.</span>ak</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#summary">summary</a>
+      <a href="#skills">skills</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
+      <a href="#education">education</a>
+      <a href="#contact">contact</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-tag">⚡ Immediate Joiner · Open to Relocation</div>
+        <h1>Javeed AK<br><span class="accent">Senior Full Stack Developer</span></h1>
+        <p class="lead">6+ years architecting scalable REST APIs and enterprise platforms with PHP &amp; CodeIgniter — now building modern frontends with React, Next.js and TypeScript.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Get in touch</a>
+          <a href="#projects" class="btn btn-ghost">View projects</a>
+        </div>
+        <div class="hero-meta">
+          <span>📍 <strong>Bengaluru, Karnataka</strong></span>
+          <span>📞 <strong>8884387892</strong></span>
+          <span>✉ <strong>javeedbnk@gmail.com</strong></span>
+        </div>
+      </div>
+
+      <div class="console reveal">
+        <div class="console-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="path">GET /developer/javeed-ak</span>
+        </div>
+        <div class="console-body">
+<span class="ln">1</span><span class="punct">{</span>
+<span class="ln">2</span>&nbsp;&nbsp;<span class="k">"status"</span><span class="punct">:</span> <span class="n">200</span><span class="punct">,</span>
+<span class="ln">3</span>&nbsp;&nbsp;<span class="k">"role"</span><span class="punct">:</span> <span class="s">"Senior Full Stack Developer"</span><span class="punct">,</span>
+<span class="ln">4</span>&nbsp;&nbsp;<span class="k">"experience_years"</span><span class="punct">:</span> <span class="n">6</span><span class="punct">,</span>
+<span class="ln">5</span>&nbsp;&nbsp;<span class="k">"core_stack"</span><span class="punct">:</span> <span class="punct">[</span><span class="s">"PHP"</span><span class="punct">,</span> <span class="s">"CodeIgniter"</span><span class="punct">,</span> <span class="s">"MySQL"</span><span class="punct">,</span> <span class="s">"Redis"</span><span class="punct">]</span><span class="punct">,</span>
+<span class="ln">6</span>&nbsp;&nbsp;<span class="k">"growth_stack"</span><span class="punct">:</span> <span class="punct">[</span><span class="s">"React"</span><span class="punct">,</span> <span class="s">"Next.js"</span><span class="punct">,</span> <span class="s">"TypeScript"</span><span class="punct">]</span><span class="punct">,</span>
+<span class="ln">7</span>&nbsp;&nbsp;<span class="k">"latency_reduced"</span><span class="punct">:</span> <span class="s">"40%"</span><span class="punct">,</span>
+<span class="ln">8</span>&nbsp;&nbsp;<span class="k">"live_platforms"</span><span class="punct">:</span> <span class="n">5</span><span class="punct">,</span>
+<span class="ln">9</span>&nbsp;&nbsp;<span class="k">"availability"</span><span class="punct">:</span> <span class="kw">true</span>
+<span class="ln">10</span><span class="punct">}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <div class="wrap summary reveal">
+      <div class="eyebrow">summary</div>
+      <h2 class="section-title">// professional summary</h2>
+      <p>
+        Results-driven Senior Full Stack Developer with <span class="highlight">6+ years</span> of experience architecting scalable web applications, REST APIs, and enterprise-grade platforms. Expert in PHP (Core, CodeIgniter) with strong command of MySQL and Google BigQuery for data management, Redis for caching, jQuery, Ajax, and third-party API integrations. Additionally experienced in modern frontend technologies including <span class="highlight">TypeScript, React, and Next.js</span>. Delivered <span class="highlight">5+ live production platforms</span> serving real users, including decentralised networks, B2B marketplaces, and internal enterprise tools. Recognised as Best Performer in Project Execution. Immediate joiner — ready to contribute from Day 1.
+      </p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap reveal">
+      <div class="eyebrow">stack</div>
+      <h2 class="section-title">// technical skills</h2>
+      <div class="skills-grid">
+        <div class="skill-cell">
+          <h3>Languages</h3>
+          <div class="skill-tags">
+            <span class="tag">Core PHP (8+)</span>
+            <span class="tag">JavaScript (ES6+)</span>
+            <span class="tag new">TypeScript</span>
+            <span class="tag">SQL</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <h3>Frameworks</h3>
+          <div class="skill-tags">
+            <span class="tag">CodeIgniter (MVC)</span>
+            <span class="tag new">React (6 months)</span>
+            <span class="tag new">Next.js (6 months)</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <h3>Frontend</h3>
+          <div class="skill-tags">
+            <span class="tag">jQuery</span>
+            <span class="tag">Ajax</span>
+            <span class="tag">HTML5</span>
+            <span class="tag">CSS3</span>
+            <span class="tag">Bootstrap</span>
+            <span class="tag new">React</span>
+            <span class="tag new">Next.js</span>
+            <span class="tag new">TypeScript</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <h3>Backend / API</h3>
+          <div class="skill-tags">
+            <span class="tag">REST API Design</span>
+            <span class="tag">MVC Architecture</span>
+            <span class="tag">JWT Authentication</span>
+            <span class="tag">Webhooks</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <h3>Databases</h3>
+          <div class="skill-tags">
+            <span class="tag">MySQL (optimisation, Workbench)</span>
+            <span class="tag">Google BigQuery</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <h3>Caching / Queue</h3>
+          <div class="skill-tags">
+            <span class="tag">Redis</span>
+            <span class="tag">Session Mgmt</span>
+            <span class="tag">Pub/Sub</span>
+            <span class="tag">Queue Handling</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <h3>Integrations</h3>
+          <div class="skill-tags">
+            <span class="tag">Google Analytics GA4</span>
+            <span class="tag">Google Calendar API</span>
+            <span class="tag">Exotel</span>
+            <span class="tag">Calendly</span>
+            <span class="tag">Payment APIs</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <h3>Tools</h3>
+          <div class="skill-tags">
+            <span class="tag">Git</span>
+            <span class="tag">Postman</span>
+            <span class="tag">VS Code</span>
+            <span class="tag">cPanel</span>
+            <span class="tag">Linux</span>
+            <span class="tag">Docker (basic)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap reveal">
+      <div class="eyebrow">work log</div>
+      <h2 class="section-title">// professional experience</h2>
+      <div class="exp-card">
+        <div class="exp-head">
+          <div class="exp-role">Senior Software Developer</div>
+          <div class="exp-dates">Dec 2019 – Mar 2026 (6+ years)</div>
+        </div>
+        <div class="exp-company">Ultimez Technology Pvt. Ltd. — Hubli, Karnataka</div>
+        <ul class="log-list">
+          <li><span class="marker">▸</span><span>Architected and launched the <b>Ultimez Team Panel</b> — a full-featured internal HR &amp; operations platform with role-based access control, attendance tracking, workflow automation, and real-time reporting for 100+ employees.</span></li>
+          <li><span class="marker">▸</span><span><b>Arrano</b> (arrano.network), <b>Upcomings</b> (upcomings.io), <b>Brandsneed</b> (brandsneed.com) — designed and built production REST API backends for 3 live platforms.</span></li>
+          <li><span class="marker">▸</span><span>Reduced API response latency by <b>40%</b> through Redis caching strategies, session management, and database query optimisation across high-traffic endpoints.</span></li>
+          <li><span class="marker">▸</span><span>Integrated 6+ third-party APIs (Google Analytics GA4, Google Calendar, Exotel, Calendly, Payment Gateways) — enabling automation, scheduling, and analytics for clients.</span></li>
+          <li><span class="marker">▸</span><span>Led backend development for <b>Gameinfinity</b> Project — including game state management, leaderboard APIs, and player session control.</span></li>
+          <li><span class="marker">▸</span><span>Managed and processed large-scale structured and unstructured datasets using MySQL and Google BigQuery, enabling data-driven reporting for stakeholders.</span></li>
+          <li><span class="marker">▸</span><span>Developed frontend interfaces using <b>React</b> and <b>Next.js</b> with <b>TypeScript</b>, gaining hands-on experience in component-driven UI development, SSR/SSG patterns, and type-safe codebases.</span></li>
+          <li><span class="marker">▸</span><span>Mentored junior developers, conducted code reviews, and enforced clean code standards across 5+ active projects in an Agile environment.</span></li>
+          <li><span class="marker">▸</span><span>Awarded <b>Certificate of Excellence</b> as Best Performer in Project Execution.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap reveal">
+      <div class="eyebrow">endpoints</div>
+      <h2 class="section-title">// key projects</h2>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <span class="project-method">POST /team-panel</span>
+          <h3>Ultimez Team Panel<small>Internal HR &amp; Operations Platform</small></h3>
+          <ul>
+            <li>Full-featured employee management system: attendance, departments, role-based access, real-time dashboards.</li>
+            <li>Admin panel with automated workflow triggers, reducing manual HR effort by ~60%.</li>
+          </ul>
+          <div class="project-tech"><b>Tech:</b> Core PHP, CodeIgniter, MySQL, jQuery, Ajax, Bootstrap, Redis</div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-method">POST /arrano-network</span>
+          <h3>Arrano Network<small>arrano.network — Decentralised Platform</small></h3>
+          <ul>
+            <li>Developed and maintained complete REST API backend for a decentralised network platform.</li>
+            <li>Implemented JWT token authentication and MVC architecture for secure, scalable API access.</li>
+          </ul>
+          <div class="project-tech"><b>Tech:</b> Core PHP, CodeIgniter, MySQL, JWT, REST API</div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-method">GET /upcomings</span>
+          <h3>Upcomings<small>upcomings.io — Event Discovery Platform</small></h3>
+          <ul>
+            <li>Built REST API backend with Google Calendar API integration for real-time event sync and scheduling.</li>
+          </ul>
+          <div class="project-tech"><b>Tech:</b> Core PHP, CodeIgniter, MySQL, Google Calendar API, JWT</div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-method">GET /brandsneed</span>
+          <h3>Brandsneed<small>brandsneed.com — B2B Brand Services Marketplace</small></h3>
+          <ul>
+            <li>Developed full REST API suite with GA4 integration for advanced user behaviour analytics and event tracking.</li>
+          </ul>
+          <div class="project-tech"><b>Tech:</b> Core PHP, CodeIgniter, MySQL, GA4 API, Bootstrap, Ajax</div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-method">POST /gameinfinity</span>
+          <h3>Gameinfinity<small>Gaming Backend Platform</small></h3>
+          <ul>
+            <li>Built APIs for game state management, leaderboards, and player session control at scale.</li>
+          </ul>
+          <div class="project-tech"><b>Tech:</b> Core PHP, MySQL, REST API, jQuery</div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-method">GET /frontend-suite</span>
+          <h3>Frontend Development<small>React &amp; Next.js Projects</small></h3>
+          <ul>
+            <li>Built responsive, component-driven UI features using React with TypeScript, applying hooks, state management, and reusable component patterns.</li>
+            <li>Developed server-side rendered and statically generated pages using Next.js, improving SEO and load performance.</li>
+          </ul>
+          <div class="project-tech"><b>Tech:</b> React, Next.js, TypeScript, HTML5, CSS3, Bootstrap</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION & ACHIEVEMENTS -->
+  <section id="education">
+    <div class="wrap reveal">
+      <div class="eyebrow">background</div>
+      <h2 class="section-title">// education &amp; achievements</h2>
+      <div class="two-col">
+        <div class="info-card">
+          <h3>Education</h3>
+          <div class="deg">Bachelor of Computer Application (BCA)</div>
+          <div class="sub">2015 – 2018</div>
+          <div class="sub" style="margin-top:8px;">Karnatak University, Dharwad — Karnataka Science College</div>
+          <div class="sub">First Class: 62.01%</div>
+        </div>
+        <div class="info-card">
+          <h3>Certifications &amp; Achievements</h3>
+          <ul class="achv-list">
+            <li>Certificate of Excellence — Best Performer in Project Execution, Ultimez Technology Pvt. Ltd.</li>
+            <li>Delivered 5+ live production platforms serving real users across decentralised, B2B, and enterprise domains.</li>
+            <li>6+ years of uninterrupted full-stack development with a single employer — demonstrating loyalty, depth, and consistent delivery.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap contact reveal">
+      <div class="eyebrow" style="justify-content:center;">connect</div>
+      <h2 class="section-title">// get in touch</h2>
+      <p>Open to relocation and available to join immediately. Let's talk about how I can contribute to your team from Day 1.</p>
+      <div class="contact-grid">
+        <a class="btn btn-primary" href="mailto:javeedbnk@gmail.com">✉ javeedbnk@gmail.com</a>
+        <a class="btn btn-ghost" href="tel:8884387892">📞 8884387892</a>
+        <a class="btn btn-ghost" href="#" onclick="return false;">📍 Bengaluru, Karnataka</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 Javeed AK — References available upon request
+</footer>
+
+<script>
+  // mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', false);
+  }));
+
+  // reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.12});
+  reveals.forEach(r => obs.observe(r));
+</script>
+
+</body>
+</html>
